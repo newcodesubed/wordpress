@@ -1,1 +1,2 @@
-this is text from front-page
+<?php get_header();?>
+<?php get_footer();?>
