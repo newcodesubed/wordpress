@@ -1,0 +1,40 @@
+# ==========================================
+# Local WP Environment Folders
+# ==========================================
+/conf/
+/logs/
+
+# ==========================================
+# WordPress Core & Default Content (Adjusted for Local)
+# ==========================================
+/app/public/wp-admin/
+/app/public/wp-includes/
+/app/public/index.php
+/app/public/license.txt
+/app/public/readme.html
+/app/public/wp-*.php
+/app/public/xmlrpc.php
+/app/public/wp-content/index.php
+/app/public/wp-content/languages/
+
+# Default Themes & Plugins
+/app/public/wp-content/themes/twenty*/
+/app/public/wp-content/plugins/hello.php
+
+# ==========================================
+# User Uploads & Media
+# ==========================================
+/app/public/wp-content/uploads/
+*.sql
+*.sql.gz
+
+# ==========================================
+# Configuration & Security
+# ==========================================
+/app/public/wp-config.php
+/app/public/.htaccess
+
+# Logs and Caches
+*.log
+/app/public/wp-content/*.log
+/app/public/wp-content/cache/
