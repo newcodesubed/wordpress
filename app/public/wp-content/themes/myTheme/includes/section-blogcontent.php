@@ -37,6 +37,6 @@ $categories = get_the_category();
 ?>
 
 <!-- Comments -->
-<?php comments_template();?>
+<!-- <?php comments_template();?> -->
 
 <?php endwhile; else: endif;?>                
