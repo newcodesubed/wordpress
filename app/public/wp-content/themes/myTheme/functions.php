@@ -68,3 +68,21 @@ function my_sidebar(){
     );
 }
 add_action('widgets_init', 'my_sidebar');
+
+// custom post type
+
+function my_first_post_type(){
+    $args = array(
+        'labels' => array(
+            'name' => 'Cars',
+            'singular_name' => 'Car'
+        ),
+        'hierarchical' => true,
+        'public' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-car',
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt')
+    );
+    register_post_type('cars', $args);
+}
+add_action('init', 'my_first_post_type');
