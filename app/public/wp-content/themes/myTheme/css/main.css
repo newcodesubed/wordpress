@@ -8,6 +8,30 @@ header{
     padding: 2rem 0;
 }
 
+/* Basic grid (fallback if Bootstrap isn't loaded) */
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.col-lg-3, .col-lg-9{
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
+}
+.col-lg-3{
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+.col-lg-9{
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+@media (max-width: 768px){
+    .col-lg-3, .col-lg-9{ flex: 0 0 100%; max-width: 100%; }
+}
+
 header .nav-menu{
     list-style: none;
     margin: 0;
@@ -31,4 +55,85 @@ header .container{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Sidebar / widget styles */
+.col-lg-3{
+    padding: 1rem;
+}
+.col-lg-3 .widget{ margin-bottom: 1rem; }
+.col-lg-3 .widget-title{ display:block; font-size: 1rem; margin-bottom: 0.5rem; }
+.col-lg-3 ul{ list-style: none; margin: 0; padding-left: 0; }
+.col-lg-3 ul li{ padding: 0.25rem 0; }
+
+/* Blog sidebar specific styles (archives, categories) */
+.col-lg-3 .widget-title{ color: #222; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+.col-lg-3 .widget-title p{ margin: 0; padding: 0; font-size: 1rem; }
+.col-lg-3 .wp-block-archives, .col-lg-3 .wp-block-categories, .col-lg-3 .wp-block-archives-list, .col-lg-3 .wp-block-categories-list{
+    list-style: none;
+    margin: 0 0 0.75rem 0;
+    padding-left: 0;
+}
+.col-lg-3 .wp-block-archives li, .col-lg-3 .wp-block-categories li{
+    padding: 0.35rem 0;
+}
+.col-lg-3 .wp-block-archives a, .col-lg-3 .wp-block-categories a{
+    color: #0073aa;
+    text-decoration: none;
+    transition: color .12s ease;
+}
+.col-lg-3 .wp-block-archives a:hover, .col-lg-3 .wp-block-categories a:hover{
+    color: #005177;
+    text-decoration: underline;
+}
+.col-lg-3 .cat-item.current-cat a{
+    font-weight: 700;
+    color: #111;
+}
+
+/* Handle malformed markup where lists are wrapped in .widget-title */
+.col-lg-3 .widget-title > ul{ margin: 0; padding-left: 0; }
+.col-lg-3 .widget-title > ul li{ padding: 0.35rem 0; }
+.col-lg-3 .widgettitle{
+    font-size: 1.25rem;
+    margin: 0 0 0.75rem;
+    color: #222;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+.col-lg-3 .menu-top-bar-container{
+    background: #fafafa;
+    border: 1px solid #ececec;
+    border-radius: 6px;
+    padding: 0.4rem;
+}
+.col-lg-3 .menu-top-bar-container .menu{
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0;
+}
+.col-lg-3 .menu-top-bar-container .menu li{
+    margin: 0;
+}
+.col-lg-3 .menu-top-bar-container .menu li a{
+    display: block;
+    padding: 0.6rem 0.8rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background .12s ease, color .12s ease;
+}
+.col-lg-3 .menu-top-bar-container .menu li a:hover{
+    background: #efefef;
+    color: #000;
+}
+.col-lg-3 .menu-top-bar-container .menu li.current-menu-item a,
+.col-lg-3 .menu-top-bar-container .menu li.current_page_item a{
+    background: #0073aa;
+    color: #fff;
+    font-weight: 600;
+}
+@media (max-width: 768px){
+    .col-lg-3{ padding: 0.5rem 0; }
+    .menu-top-bar-container .menu li a{ padding: 0.5rem 0.6rem; }
 }
