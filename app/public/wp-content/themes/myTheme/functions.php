@@ -86,3 +86,19 @@ function my_first_post_type(){
     register_post_type('cars', $args);
 }
 add_action('init', 'my_first_post_type');
+
+//taxonomy
+
+function my_first_taxonomy(){
+    $args = array(
+        'labels' => array(
+            'name' => 'Brands',
+            'singular_name' => 'Brand'
+        ),
+        'hierarchical' => true,
+        'public' => true,
+        'has_archive' => true,
+    );
+    register_taxonomy('brands', array('cars'), $args);
+}
+add_action('init', 'my_first_taxonomy');  

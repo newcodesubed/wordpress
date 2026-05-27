@@ -11,7 +11,6 @@ $fullName = $Fname . ' ' . $Lname;
 ?>
 <p>Written by <?php echo $fullName;?></p>
 
-<!-- Tags -->
 <?php
 $tags = get_the_tags();
 
@@ -24,7 +23,6 @@ $tags = get_the_tags();
     endforeach;
 ?>
 
-<!-- Categories -->
 <?php
 $categories = get_the_category();
     foreach ($categories as $category) :
@@ -35,8 +33,4 @@ $categories = get_the_category();
 <?php
     endforeach;
 ?>
-
-<!-- Comments -->
-<!-- <?php comments_template();?> -->
-
 <?php endwhile; else: endif;?>                
