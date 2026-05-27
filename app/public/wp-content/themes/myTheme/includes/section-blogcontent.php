@@ -13,24 +13,25 @@ $fullName = $Fname . ' ' . $Lname;
 
 <?php
 $tags = get_the_tags();
-
+if($tags):
     foreach ($tags as $tag) :
 ?>
         <a class="badge bg-success text-decoration-none" href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>">
             <?php echo esc_html($tag->name); ?>
         </a>
 <?php
-    endforeach;
+    endforeach; endif;
 ?>
 
 <?php
 $categories = get_the_category();
+if($categories):
     foreach ($categories as $category) :
 ?>
         <a class="badge bg-primary text-decoration-none" href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
             <?php echo esc_html($category->name); ?>
         </a>   
 <?php
-    endforeach;
+    endforeach; endif;
 ?>
 <?php endwhile; else: endif;?>                
