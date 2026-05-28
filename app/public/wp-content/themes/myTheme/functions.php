@@ -112,6 +112,10 @@ add_action('wp_ajax_nopriv_enquiry', 'handle_enquiry');
 
 function handle_enquiry()
 {
+    if(!wp_verify_nonce(($_POST['nonce']), 'ajax-nonce')) {
+        wp_send_json_error('Invalid nonce. Please refresh the page and try again.',401);
+        die();
+    }
 
     $formData = [];
 

@@ -32,6 +32,7 @@
             var formData = new FormData();
 
             formData.append('action', 'enquiry');
+            formData.append('nonce', '<?php echo wp_create_nonce('ajax-nonce'); ?>');
             formData.append('enquiry', form);
 
             $.ajax({
@@ -49,8 +50,8 @@
 
                     $('#enquiry').fadeIn(200);
                 },
-                error: function(xhr, status, error){
-                    alert('An error occurred while submitting the enquiry. Please try again.');
+                error: function(error){
+                    alert('An error occurred while submitting the enquiry. Please try again.', error.responseJSON.data);
                 }
 
             });
