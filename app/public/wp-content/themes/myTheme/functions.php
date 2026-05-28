@@ -27,9 +27,9 @@ add_action('wp_enqueue_scripts', 'load_js');
 
 // Theme Options
 
-    add_theme_support('menus');
-    add_theme_support('post-thumbnails');
-    add_theme_support('widgets');
+add_theme_support('menus');
+add_theme_support('post-thumbnails');
+add_theme_support('widgets');
 
 
 
@@ -47,14 +47,15 @@ add_image_size('blog-large', 800, 400, true);
 
 // sidebar
 
-function my_sidebar(){
+function my_sidebar()
+{
     register_sidebar(
         array(
             'name' => 'Page Sidebar',
             'id' => 'page-sidebar',
             'before_widget' => '<h4 class="widget-title">',
             'after_widget' => "</h4>",
-            
+
         )
     );
     register_sidebar(
@@ -63,7 +64,7 @@ function my_sidebar(){
             'id' => 'blog-sidebar',
             'before_widget' => '<h4 class="widget-title">',
             'after_widget' => "</h4>",
-            
+
         )
     );
 }
@@ -71,7 +72,8 @@ add_action('widgets_init', 'my_sidebar');
 
 // custom post type
 
-function my_first_post_type(){
+function my_first_post_type()
+{
     $args = array(
         'labels' => array(
             'name' => 'Cars',
@@ -89,7 +91,8 @@ add_action('init', 'my_first_post_type');
 
 //taxonomy
 
-function my_first_taxonomy(){
+function my_first_taxonomy()
+{
     $args = array(
         'labels' => array(
             'name' => 'Brands',
@@ -101,12 +104,50 @@ function my_first_taxonomy(){
     );
     register_taxonomy('brands', array('cars'), $args);
 }
-add_action('init', 'my_first_taxonomy');  
+add_action('init', 'my_first_taxonomy');
 
 
 add_action('wp_ajax_enquiry', 'handle_enquiry');
 add_action('wp_ajax_nopriv_enquiry', 'handle_enquiry');
 
-function handle_enquiry() {
-  wp_send_json_success('Enquiry received successfully!');
+function handle_enquiry()
+{
+
+    $formData = [];
+
+    parse_str($_POST['enquiry'], $formData);
+
+    // Admin email address
+    $admin_email = get_option('admin_email');
+
+    // Email headers
+    $headers[] = 'Content-Type: text/html; charset=UTF-8';
+    $headers[] = 'From: ' . $admin_email;
+    $headers[] = 'Reply-To: ' . $formData['email'];
+
+    // Email sending to?
+    $send_to = $admin_email;
+
+    // Email subject
+    $subject = 'New Enquiry from ' . $formData['name'];
+
+    // Email body
+    $message = '';
+
+    foreach ($formData as $index => $field) {
+        $message .= '<p><strong>' . $index . ':</strong> ' . $field . '</p>' . '<br />';
+    }
+
+    // Send the email
+    try {
+        if (wp_mail($send_to, $subject, $message, $headers)) {
+            wp_send_json_success('Your enquiry has been sent successfully!');
+        } else {
+            wp_send_json_error('Failed to send your enquiry. Please try again later.');
+        }
+    } catch (Exception $e) {
+        wp_send_json_error($e->getMessage());
+    }
+
+    wp_send_json_success($formData['name'] . ', your enquiry has been received! We will get back to you shortly.');
 }

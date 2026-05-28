@@ -1,3 +1,7 @@
+<div id="success-message" class="alert alert-success" style="display:none">
+
+</div>
+
 <form id="enquiry">
     <h2>Enquiry Form <?php echo get_the_title(); ?></h2>
     <div class="mb-3">
@@ -37,8 +41,13 @@
                 processData: false,
                 contentType: false,
                 success: function(response){
-                    alert(response.data);
-                    // $('#enquiry')[0].reset();
+                    $('#enquiry').fadeOut(200);
+                    
+                    $('#success-message').text(response.data).fadeIn(200);
+
+                    $('#enquiry').trigger('reset');
+
+                    $('#enquiry').fadeIn(200);
                 },
                 error: function(xhr, status, error){
                     alert('An error occurred while submitting the enquiry. Please try again.');
