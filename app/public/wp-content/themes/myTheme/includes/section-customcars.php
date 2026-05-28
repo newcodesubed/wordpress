@@ -7,6 +7,19 @@
         <span class="post-date"><?php echo get_the_date('l jS F, Y');?></span>
     </div>
 
+    <?php
+    $color = get_post_meta(get_the_ID(), 'color', true);
+    if (!$color && function_exists('get_field')) {
+        $color = get_field('color');
+    }
+    ?>
+
+    <?php if (!empty($color)) : ?>
+        <div class="post-color">
+            <p class="color-label">Color: <strong><?php echo esc_html($color); ?></strong></p>
+        </div>
+    <?php endif; ?>
+
     <!-- Main Content -->
     <div class="post-content">
         <?php the_content();?>
@@ -56,6 +69,7 @@
             endif;
             ?>
         </div>
+        
         
     </div>
 
