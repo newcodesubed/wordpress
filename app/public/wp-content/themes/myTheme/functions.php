@@ -102,3 +102,11 @@ function my_first_taxonomy(){
     register_taxonomy('brands', array('cars'), $args);
 }
 add_action('init', 'my_first_taxonomy');  
+
+
+add_action('wp_ajax_enquiry', 'handle_enquiry');
+add_action('wp_ajax_nopriv_enquiry', 'handle_enquiry');
+
+function handle_enquiry() {
+  wp_send_json_success('Enquiry received successfully!');
+}

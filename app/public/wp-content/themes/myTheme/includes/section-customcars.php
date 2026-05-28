@@ -69,7 +69,7 @@
             endif;
             ?>
         </div>
-        
+        <?php get_template_part('includes/form', 'enquiry'); ?>
         
     </div>
 
