@@ -155,3 +155,11 @@ function handle_enquiry()
 
     wp_send_json_success($formData['name'] . ', your enquiry has been received! We will get back to you shortly.');
 }
+
+/**
+ * Register Custom Navigation Walker
+ */
+function register_navwalker(){
+	require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';
+}
+add_action( 'after_setup_theme', 'register_navwalker' );
