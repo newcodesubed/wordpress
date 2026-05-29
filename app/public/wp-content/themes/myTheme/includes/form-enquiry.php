@@ -51,7 +51,15 @@
                     $('#enquiry').fadeIn(200);
                 },
                 error: function(error){
-                    alert('An error occurred while submitting the enquiry. Please try again.', error.responseJSON.data);
+                    var errorMessage = 'An error occurred while submitting the enquiry. Please try again.';
+
+                    if (error.responseJSON && error.responseJSON.data) {
+                        errorMessage = error.responseJSON.data;
+                    } else if (error.responseText) {
+                        errorMessage = error.responseText;
+                    }
+
+                    alert(errorMessage);
                 }
 
             });

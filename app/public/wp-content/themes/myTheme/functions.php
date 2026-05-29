@@ -112,14 +112,21 @@ add_action('wp_ajax_nopriv_enquiry', 'handle_enquiry');
 
 function handle_enquiry()
 {
-    if(!wp_verify_nonce(($_POST['nonce']), 'ajax-nonce')) {
-        wp_send_json_error('Invalid nonce. Please refresh the page and try again.',401);
-        die();
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'ajax-nonce')) {
+        wp_send_json_error('Invalid nonce. Please refresh the page and try again.', 401);
+    }
+
+    if (!isset($_POST['enquiry'])) {
+        wp_send_json_error('Missing form data.', 400);
     }
 
     $formData = [];
 
     parse_str($_POST['enquiry'], $formData);
+
+    if (empty($formData['name']) || empty($formData['email']) || empty($formData['message'])) {
+        wp_send_json_error('Please fill in all required fields.', 400);
+    }
 
     // Admin email address
     $admin_email = get_option('admin_email');
@@ -147,13 +154,13 @@ function handle_enquiry()
         if (wp_mail($send_to, $subject, $message, $headers)) {
             wp_send_json_success('Your enquiry has been sent successfully!');
         } else {
-            wp_send_json_error('Failed to send your enquiry. Please try again later.');
+            error_log('Enquiry mail failed for: ' . $formData['email']);
+            wp_send_json_error('Failed to send your enquiry. Please try again later.', 500);
         }
-    } catch (Exception $e) {
-        wp_send_json_error($e->getMessage());
+    } catch (Throwable $e) {
+        error_log('Enquiry mail exception: ' . $e->getMessage());
+        wp_send_json_error($e->getMessage(), 500);
     }
-
-    wp_send_json_success($formData['name'] . ', your enquiry has been received! We will get back to you shortly.');
 }
 
 /**
@@ -163,3 +170,21 @@ function register_navwalker(){
 	require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';
 }
 add_action( 'after_setup_theme', 'register_navwalker' );
+
+
+// smpt mailer
+add_action('phpmailer_init', 'custom_mailer');
+function custom_mailer($phpmailer)
+{
+    $phpmailer->isSMTP();
+    $fromEmail = defined('SMTP_LOGIN') && SMTP_LOGIN ? SMTP_LOGIN : get_option('admin_email');
+
+    $phpmailer->setFrom($fromEmail, 'Subed Shah');
+    $phpmailer->Host = 'smtp.gmail.com';
+    $phpmailer->Port = 587;
+    $phpmailer->SMTPAuth = true;
+    $phpmailer->SMTPSecure = 'tls';
+    $phpmailer->Username = SMTP_LOGIN; // Replace with your SMTP username
+    $phpmailer->Password = SMTP_PASSWORD; // Replace with your SMTP password
+
+}
